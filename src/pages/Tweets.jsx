@@ -1,4 +1,4 @@
-import TweetCard from "components/TweetCard";
+import TweetCard from "components/TweetCard/TweetCard";
 
 const Tweets = () => {
   return <TweetCard></TweetCard>;
