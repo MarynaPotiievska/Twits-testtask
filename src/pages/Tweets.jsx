@@ -1,7 +1,7 @@
-import TweetCard from "components/TweetCard/TweetCard";
+import TweetList from "components/TweetList";
 
 const Tweets = () => {
-  return <TweetCard></TweetCard>;
+  return <TweetList></TweetList>;
 };
 
 export default Tweets;
