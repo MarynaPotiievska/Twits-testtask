@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 import logo1x from "assets/logo@1x.png";
 import logo2x from "assets/logo@2x.png";
@@ -17,6 +18,12 @@ import {
 } from "./TweetCard.styled";
 
 const TweetCard = ({ tweet }) => {
+  const [following, setFollowing] = useState(false);
+
+  const handleClick = () => {
+    setFollowing((prevState) => !prevState);
+  };
+
   return (
     <Card>
       <Logo srcSet={`${logo1x} 1x, ${logo2x} 2x`} alt="Logo" />
@@ -31,7 +38,9 @@ const TweetCard = ({ tweet }) => {
       <Text>
         <span>{tweet.followers}</span> Followers
       </Text>
-      <Button type="button">Follow</Button>
+      <Button type="button" following={following} onClick={handleClick}>
+        {following ? "Following" : "Follow"}
+      </Button>
     </Card>
   );
 };
