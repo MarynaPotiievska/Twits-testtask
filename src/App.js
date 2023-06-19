@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const Home = lazy(() => import("pages/Home"));
@@ -6,10 +6,13 @@ const Tweets = lazy(() => import("pages/Tweets"));
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />}></Route>
-      <Route path="/tweets" element={<Tweets />}></Route>
-    </Routes>
+    <Suspense fallback={<p>Loading...</p>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tweets" element={<Tweets />} />
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </Suspense>
   );
 };
 

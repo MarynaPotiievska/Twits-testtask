@@ -4,6 +4,7 @@ import { fetchData } from "helpers/dataOperations";
 
 import TweetList from "components/TweetList";
 import LoadMore from "components/LoadMore";
+import LinkButton from "components/LinkButton/LinkButton";
 
 const Tweets = () => {
   const [tweets, setTweets] = useState([]);
@@ -41,6 +42,7 @@ const Tweets = () => {
     <main>
       {isLoading && <p>Loading...</p>}
       {error && <li>{error}</li>}
+      <LinkButton path="/" text="Back" />
       <TweetList tweets={tweets} />
       <LoadMore onClick={handleClick} disable={isDisable} />
     </main>

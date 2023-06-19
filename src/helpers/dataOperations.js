@@ -6,3 +6,7 @@ export const fetchData = async () => {
   const resp = await axios.get("/users");
   return resp.data;
 };
+
+export const updateData = async (id, followers) => {
+  await axios.put(`/users/${id}`, { followers });
+};
