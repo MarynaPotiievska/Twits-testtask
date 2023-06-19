@@ -25,6 +25,12 @@ const TweetCard = ({ tweet, setError }) => {
   const isFollowed = followedTweets.includes(tweet.id);
   const [following, setFollowing] = useState(isFollowed);
 
+  const numberUI = (number) => {
+    return number.toLocaleString("en", {
+      useGrouping: true,
+    });
+  };
+
   const updateFollowers = async () => {
     try {
       await updateData(tweet.id, tweet.followers);
@@ -61,10 +67,10 @@ const TweetCard = ({ tweet, setError }) => {
         <Avatar src={tweet.avatar} alt={tweet.user} />
       </AvatarWrapper>
       <Text>
-        <span>{tweet.tweets}</span> tweets
+        <span>{numberUI(tweet.tweets)}</span> tweets
       </Text>
       <Text>
-        <span>{tweet.followers}</span> Followers
+        <span>{numberUI(tweet.followers)}</span> Followers
       </Text>
       <Button type="button" following={following} onClick={handleClick}>
         {following ? "Following" : "Follow"}
