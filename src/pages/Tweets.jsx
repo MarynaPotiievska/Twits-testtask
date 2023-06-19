@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
+import { useMount } from "react-use";
 import { ToastContainer } from "react-toastify";
 
 import { fetchData } from "helpers/dataOperations";
@@ -14,7 +15,7 @@ const Tweets = () => {
 
   const isDisable = tweets.length === 12 ? true : false;
 
-  const getTweets = useCallback(async () => {
+  const getTweets = async () => {
     try {
       setIsLoading(true);
       const res = await fetchData();
@@ -29,15 +30,15 @@ const Tweets = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
   const handleClick = () => {
     getTweets();
   };
 
-  useEffect(() => {
+  useMount(() => {
     getTweets();
-  }, [getTweets]);
+  });
 
   return (
     <main>
