@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { fetchData } from "helpers/dataOperations";
 
@@ -10,27 +10,39 @@ const Tweets = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const getTweets = async () => {
-      try {
-        setIsLoading(true);
-        const res = await fetchData();
-        setTweets(res);
-      } catch (error) {
-        setError("Sorry, something went wrong. Please, try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getTweets();
+  const isDisable = tweets.length === 12 ? true : false;
+
+  const getTweets = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchData();
+      setTweets((prevState) => [
+        ...prevState,
+        res[prevState.length],
+        res[prevState.length + 1],
+        res[prevState.length + 2],
+      ]);
+    } catch (error) {
+      setError("Sorry, something went wrong. Please, try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  const handleClick = () => {
+    getTweets();
+  };
+
+  useEffect(() => {
+    getTweets();
+  }, [getTweets]);
 
   return (
     <main>
       {isLoading && <p>Loading...</p>}
       {error && <li>{error}</li>}
       <TweetList tweets={tweets} />
-      <LoadMore />
+      <LoadMore onClick={handleClick} disable={isDisable} />
     </main>
   );
 };

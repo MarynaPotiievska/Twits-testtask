@@ -8,11 +8,13 @@ const TweetList = ({ tweets }) => {
   return (
     <List>
       {tweets.length > 0 &&
-        tweets.map((tweet) => (
-          <li key={tweet.id}>
-            <TweetCard tweet={tweet} />
-          </li>
-        ))}
+        tweets.map((tweet) => {
+          return (
+            <li key={tweet.id}>
+              <TweetCard tweet={tweet} />
+            </li>
+          );
+        })}
     </List>
   );
 };

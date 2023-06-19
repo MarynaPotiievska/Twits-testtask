@@ -78,7 +78,6 @@ export const Text = styled.p`
 export const Button = styled.button`
   width: 196px;
   padding: 14px 0;
-  text-align: center;
   font-weight: 600;
   font-size: 18px;
   line-height: calc(22 / 18);
