@@ -6,6 +6,8 @@ import logo2x from "assets/logo@2x.png";
 import tweetImg1x from "assets/tweetImg@1x.png";
 import tweetImg2x from "assets/tweetImg@2x.png";
 
+import { updateData } from "helpers/dataOperations";
+
 import {
   Card,
   Logo,
@@ -17,11 +19,37 @@ import {
   Button,
 } from "./TweetCard.styled";
 
-const TweetCard = ({ tweet }) => {
-  const [following, setFollowing] = useState(false);
+const TweetCard = ({ tweet, setError }) => {
+  const followedTweets = JSON.parse(localStorage.getItem("followedId")) ?? [];
+
+  const isFollowed = followedTweets.includes(tweet.id);
+  const [following, setFollowing] = useState(isFollowed);
+
+  const updateFollowers = async () => {
+    try {
+      await updateData(tweet.id, tweet.followers);
+    } catch (error) {
+      setError("Sorry, something went wrong. Please, try again.");
+    }
+  };
 
   const handleClick = () => {
+    const currentFollowing =
+      JSON.parse(localStorage.getItem("followedId")) ?? [];
     setFollowing((prevState) => !prevState);
+    if (following) {
+      tweet.followers -= 1;
+      const index = currentFollowing.findIndex((id) => id === tweet.id);
+      console.log("index", index);
+      console.log("id", tweet.id, "followers", tweet.followers);
+      currentFollowing.splice(index, 1);
+    } else {
+      tweet.followers += 1;
+      currentFollowing.push(tweet.id);
+      console.log("id", tweet.id, "followers", tweet.followers);
+    }
+    localStorage.setItem("followedId", JSON.stringify(currentFollowing));
+    updateFollowers();
   };
 
   return (
@@ -53,6 +81,7 @@ TweetCard.propTypes = {
     avatar: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
+  setError: PropTypes.func.isRequired,
 };
 
 export default TweetCard;

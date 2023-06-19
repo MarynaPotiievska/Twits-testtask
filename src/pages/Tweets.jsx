@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { ToastContainer } from "react-toastify";
 
 import { fetchData } from "helpers/dataOperations";
 
@@ -41,10 +42,25 @@ const Tweets = () => {
   return (
     <main>
       {isLoading && <p>Loading...</p>}
-      {error && <li>{error}</li>}
+      {error && (
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        >
+          {error}
+        </ToastContainer>
+      )}
       <LinkButton path="/" text="Back" />
-      <TweetList tweets={tweets} />
-      <LoadMore onClick={handleClick} disable={isDisable} />
+      <TweetList tweets={tweets} setError={setError} />
+      {!isLoading && <LoadMore onClick={handleClick} disable={isDisable} />}
     </main>
   );
 };
